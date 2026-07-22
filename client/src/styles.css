@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-ink text-slate-100 font-body antialiased;
+    background-image: radial-gradient(circle at 20% 0%, rgba(62, 111, 242, 0.12), transparent 40%),
+      radial-gradient(circle at 100% 30%, rgba(31, 209, 161, 0.08), transparent 40%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .panel {
+    @apply bg-card border border-border rounded-2xl;
+  }
+  .stat-figure {
+    @apply font-mono tabular-nums;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #223052;
+  border-radius: 8px;
+}

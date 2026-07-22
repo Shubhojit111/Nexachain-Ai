@@ -1,0 +1,166 @@
+{
+  "info": {
+    "name": "NexaChain AI - Investment & Referral Platform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "token", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Shubhojit Deb\",\n  \"email\": \"shubhojit123@gmail.com\",\n  \"mobile\": \"9876543210\",\n  \"password\": \"shubh9876\",\n  \"referralCode\": \"\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"user\": {\n      \"_id\": \"665f1c2e2b1e4a0012a34567\",\n      \"fullName\": \"Shubhojit Deb\",\n      \"email\": \"shubhojit123@gmail.com\",\n      \"mobile\": \"9876543210\",\n      \"referralCode\": \"NXC-7F3K9A2B\",\n      \"referredBy\": null,\n      \"walletBalance\": 0,\n      \"totalROIEarned\": 0,\n      \"totalLevelIncomeEarned\": 0,\n      \"accountStatus\": \"Active\"\n    },\n    \"token\": \"<jwt>\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"shubhojit123@gmail.com\",\n  \"password\": \"shubh9876\"\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "body": "{\n  \"success\": true,\n  \"data\": { \"user\": { \"...\": \"...\" }, \"token\": \"<jwt>\" }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get current user (Me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Investments",
+      "item": [
+        {
+          "name": "Create Investment",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": "{{baseUrl}}/investments",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 1000,\n  \"planName\": \"Silver\",\n  \"durationInDays\": 90,\n  \"dailyROIPercentage\": 2.0\n}"
+            }
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"investment\": {\n      \"_id\": \"665f1d3e2b1e4a0012a34599\",\n      \"user\": \"665f1c2e2b1e4a0012a34567\",\n      \"amount\": 1000,\n      \"plan\": { \"name\": \"Silver\", \"durationInDays\": 90 },\n      \"startDate\": \"2026-07-22T00:00:00.000Z\",\n      \"endDate\": \"2026-10-30T00:00:00.000Z\",\n      \"dailyROIPercentage\": 2.0,\n      \"status\": \"Active\"\n    }\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get My Investments",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/investments?page=1&limit=20"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dashboard",
+      "item": [
+        {
+          "name": "Get Summary",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/dashboard/summary"
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"totalInvestments\": 1000,\n    \"investmentCount\": 1,\n    \"activeInvestments\": 1,\n    \"totalROIEarned\": 120,\n    \"totalLevelIncomeEarned\": 6,\n    \"walletBalance\": 126\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get ROI History",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/dashboard/roi-history?page=1&limit=30"
+          }
+        },
+        {
+          "name": "Get Referral Income History",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/dashboard/referral-income-history?page=1&limit=30"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Referrals",
+      "item": [
+        {
+          "name": "Get Direct Referrals",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/referrals/direct"
+          }
+        },
+        {
+          "name": "Get Complete Referral Tree",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/referrals/tree"
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "body": "{\n  \"success\": true,\n  \"data\": {\n    \"totalDownlineCount\": 2,\n    \"tree\": [\n      {\n        \"_id\": \"665f1c2e2b1e4a0012a34999\",\n        \"fullName\": \"Rohit Verma\",\n        \"accountStatus\": \"Active\",\n        \"totalROIEarned\": 340,\n        \"children\": []\n      }\n    ]\n  }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "API Health Check",
+          "request": { "method": "GET", "url": "{{baseUrl}}/health" }
+        }
+      ]
+    }
+  ]
+}
